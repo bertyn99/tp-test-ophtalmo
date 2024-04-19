@@ -1,11 +1,5 @@
-import db from "../../mongo/db.js";
-import {ObjectId} from "mongodb";
-import User from "./user.entities.js";
-import prisma from "../../prisma/db.js";
+import prisma from "../../prisma/index.js";
 
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
 
 class UserRepository {
     constructor() {
