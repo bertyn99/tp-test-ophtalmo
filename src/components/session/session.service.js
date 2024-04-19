@@ -2,8 +2,8 @@ import { getMaxGap, getAverage, getMedian } from '../../utils/dateUtils.js';
 import SessionRepository from './session.repository.js';
 
 class SessionService {
-  constructor() {
-    this.sessionRepository = new SessionRepository();
+  constructor(repository) {
+    this.sessionRepository = repository;
   }
 
   createSession(startTime, endTime, pauses = []) {
