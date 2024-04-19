@@ -116,4 +116,39 @@ describe('UserService', () => {
     });
 
     // TODO updateUser & deleteUserById
+    describe('updateUser', () => {
+        it('nominal case - should update the user', async () => {
+            // GIVEN
+            const user = { ...mockUsers[0],password:'newPassword' };
+       
+            const res=await userService.updateUser(user);
+
+            // THEN
+            expect(mockUserRepository.update).toHaveBeenCalledWith(user);
+            expect(res).toEqual(user);
+
+
+
+            });
+        });
+    describe('deleteUsers', () => {
+        it('nominal case - should delete a user by ID', async () => {
+         
+            // WHEN
+            const res = userService.deleteUserById("4200a8f5185294c4fee1b41e");
+
+            // THEN
+            expect(mockUserRepository.deleteById).toHaveBeenCalledWith("4200a8f5185294c4fee1b41e");
+            expect(res).toBeUndefined();
+            
+            //check if the cobaye linked to this user got deleted
+            //TODO
+        });
+        it('nominal case - should delete all users', async () => {
+            const res = userService.deleteUsers();
+            expect(mockUserRepository.deleteUsers);
+            expect(res).toBeUndefined();
+        });
+
+    });
 });
