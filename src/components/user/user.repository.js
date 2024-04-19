@@ -1,10 +1,10 @@
 import prisma from "../../prisma/index.js";
 
-
 class UserRepository {
     constructor() {
         this.db = prisma.user;
     }
+
     async getById(id) {
         return await this.db.findUnique({
             where: { id: id },
@@ -17,19 +17,19 @@ class UserRepository {
         });
     }
 
-    getAll = async () => {
+    async getAll() {
         return await this.db.findMany();
-    };
+    }
 
-    deleteAll = async () => {
+    async deleteAll() {
         return await this.db.deleteMany();
-    };
+    }
 
     async create(user) {
         return await this.db.create({
             data: user,
         });
-    };
+    }
 
     async update(user) {
         return await this.db.update({

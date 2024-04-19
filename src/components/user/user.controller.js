@@ -6,9 +6,10 @@ class UserController {
 
 
   createUser = async (req, res) => {
+    console.log('req.body', req.body);
     try {
-      const createdUser = await this.userService.addUser(req.body.email, req.body.password);
-      res.status(201).send(createdUser.toJSON());
+      const createdUser = await this.userService.addUser(req.body);
+      res.status(201).send(createdUser);
     } catch (err) {
       res.status(403).send(err.message);
     }
@@ -17,7 +18,7 @@ class UserController {
   updateUser = async (req, res) => {
     try {
       const updatedUser = await this.userService.updateUser(req.body.email, req.body.password, req.body.id);
-      res.status(200).send(updatedUser.toJSON());
+      res.status(200).send(updatedUser);
     } catch (err) {
       res.status(404).send(err.message);
     }
@@ -26,7 +27,7 @@ class UserController {
   getUsers = async (_, res) => {
     try {
       const users = await this.userService.getUsers();
-      const usersJSON = users.map(user => user.toJSON());
+      const usersJSON = users.map(user => user);
       res.status(200).send(usersJSON);
     } catch (err) {
       res.status(500).send(err.message);

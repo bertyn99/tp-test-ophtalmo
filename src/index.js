@@ -1,9 +1,10 @@
-import express from 'express';
+import express, { json } from 'express';
 import swagger from './swagger.js';
 import loadRoutes from './loaders/routes.js';
 
 const app = express();
 
+app.use(json());
 loadRoutes(app);
 swagger(app);
 
