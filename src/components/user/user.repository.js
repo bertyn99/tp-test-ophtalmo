@@ -1,66 +1,57 @@
 import db from "../../mongo/db.js";
 import {ObjectId} from "mongodb";
 import User from "./user.entities.js";
+import prisma from "../../prisma/db.js";
+
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 class UserRepository {
     constructor() {
-        this.collection = db.collection("users");
+        this.db = prisma.user;
     }
-
     async getById(id) {
-        const query = this.createBsonId(id);
-        return User.fromDocument(await this.collection.findOne(query));
+        return await this.db.findUnique({
+            where: { id: id },
+        });
     }
 
     async getByEmail(email) {
-        let query = {email: email};
-        const document = await this.collection.findOne(query);
-        if (!document) {
-            return undefined
-        }
-        return User.fromDocument(document);
+        return await this.db.findUnique({
+            where: { email: email },
+        });
     }
 
     getAll = async () => {
-        const documents = await this.collection.find({}).toArray();
-        return documents.map(doc => User.fromDocument(doc));
+        return await this.db.findMany();
     };
 
-    deleteAll = async () => await this.collection.deleteMany({});
-
-    async create(document) {
-        const res = await this.collection.insertOne(document);
-        document.id = res.insertedId.toString()
-        return document;
+    deleteAll = async () => {
+        return await this.db.deleteMany();
     };
 
-    async update(document) {
-        const filter = this.createBsonId(document._id);
-        const updateDocument = {
-            $set: {
-                email: document.email,
-                password: document.password,
-                age: document.age
-            }
-        };
-        await this.collection.updateOne(filter, updateDocument);
-        return await this.getById(document._id);
+    async create(user) {
+        return await this.db.create({
+            data: user,
+        });
+    };
+
+    async update(user) {
+        return await this.db.update({
+            where: { id: user.id },
+            data: {
+                email: user.email,
+                password: user.password,
+                age: user.age,
+            },
+        });
     }
-
 
     async deleteById(id) {
-        const query = this.createBsonId(id)
-        return await this.collection.deleteOne(query);
-    }
-
-    createBsonId(id) {
-        let query;
-        try {
-            query = {_id: new ObjectId(id)};
-        } catch (err) {
-            throw new Error('Invalid id');
-        }
-        return query;
+        return await this.db.delete({
+            where: { id: id },
+        });
     }
 }
 

@@ -1,68 +1,54 @@
-import db from "../../mongo/db.js";
-import { ObjectId } from "mongodb";
-import Cobaye from "./cobaye.entities.js";
+import prisma from '../../prisma/index.js';
 
 class CobayeRepository {
-  constructor() {
-    this.collection = db.collection("cobayes");
-  }
-
-  async getById(id) {
-    const query = this.createBsonId(id);
-    return Cobaye.fromDocument(await this.collection.findOne(query));
-  }
-
-  async getByName(name) {
-    let query = { nom: name };
-    const document = await this.collection.findOne(query);
-    if (!document) {
-      return undefined
+    constructor() {
+        this.db = prisma.user;
     }
-    return Cobaye.fromDocument(document);
-  }
 
-  getAll = async () => {
-    const documents = await this.collection.find({}).toArray();
-    return documents.map(doc => Cobaye.fromDocument(doc));
-  };
+    async getById(id) {
+        return await this.db.findUnique({
+            where: { id: id },
+        });
+    }
 
-  deleteAll = async () => await this.collection.deleteMany({});
+    async getByName(name) {
+        return await this.db.findUnique({
+            where: { nom: name },
+        });
+    }
 
-  async create(document) {
-    const res = await this.collection.insertOne(document);
-    document.id = res.insertedId.toString()
-    return document;
-  };
-
-  async update(document) {
-    const filter = this.createBsonId(document._id);
-    const updateDocument = {
-      $set: {
-        nom: document.nom,
-        prenom: document.prenom,
-        dateDeNaissance: document.dateDeNaissance,
-        sexe: document.sexe,
-        resultatsTestsOphtalmiques: document.resultatsTestsOphtalmiques
-      }
+    getAll = async () => {
+        return await this.db.findMany();
     };
-    await this.collection.updateOne(filter, updateDocument);
-    return await this.getById(document._id);
-  }
 
-  async deleteById(id) {
-    const query = this.createBsonId(id)
-    return await this.collection.deleteOne(query);
-  }
+    deleteAll = async () => {
+        return await this.db.deleteMany();
+    };
 
-  createBsonId(id) {
-    let query;
-    try {
-      query = { _id: new ObjectId(id) };
-    } catch (err) {
-      throw new Error('Invalid id');
+    async create(cobaye) {
+        return await this.db.create({
+            data: cobaye,
+        });
+    };
+
+    async update(cobaye) {
+        return await this.db.update({
+            where: { id: cobaye.id },
+            data: {
+                nom: cobaye.nom,
+                prenom: cobaye.prenom,
+                dateDeNaissance: cobaye.dateDeNaissance,
+                sexe: cobaye.sexe,
+                resultatsTestsOphtalmiques: cobaye.resultatsTestsOphtalmiques
+            },
+        });
     }
-    return query;
-  }
+
+    async deleteById(id) {
+        return await this.db.delete({
+            where: { id: id },
+        });
+    }
 }
 
 export default CobayeRepository;

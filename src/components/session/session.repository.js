@@ -1,23 +1,39 @@
-import Session from '../models/Session.js';
+import prisma from '../../prisma/index.js';
+class SessionRepository {
+    constructor() {
+        this.db = prisma.session;
+    }
 
-const createSession = (startTime, endTime, pauses = []) => {
-  const session = new Session(startTime, endTime, pauses);
-  // Enregistrer la session dans la base de données
-  return session;
-};
+    async createSession(startTime, endTime, pauses = []) {
+        return await this.db.create({
+            data: {
+                startTime: startTime,
+                endTime: endTime,
+                pauses: pauses
+            },
+        });
+    }
 
-const getAllSessions = () => {
-  // Récupérer toutes les sessions enregistrées dans la base de données
-  return Session.getAllSessions();
-};
+    async getAllSessions() {
+        return await this.db.findMany();
+    }
 
-const updateSession = (id, updates) => {
-  // Mettre à jour une session existante dans la base de données
-  return Session.updateSession(id, updates);
-};
+    async updateSession(id, updates) {
+        return await this.db.update({
+            where: { id: id },
+            data: updates,
+        });
+    }
 
-export default {
-  createSession,
-  getAllSessions,
-  updateSession
-};
+    async deleteSessionById(id) {
+        return await this.db.delete({
+            where: { id: id },
+        });
+    }
+
+    async deleteAllSessions() {
+        return await this.db.deleteMany();
+    }
+}
+
+export default SessionRepository;
