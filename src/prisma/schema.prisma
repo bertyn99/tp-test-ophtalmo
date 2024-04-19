@@ -7,17 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Cobaye {
-  id                           String             @id @default(auto()) @map("_id") @db.ObjectId
-  nom                          String
-  prenom                       String
-  date_de_naissance            DateTime
-  sexe                         String
-  resultats_tests_ophtalmiques Json
-  port_de_lentilles            SessionLentilles[]
+model User {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  email    String  @unique
+  password String
+  cobaye   Cobaye?
 }
 
-model SessionLentilles {
+model Cobaye {
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  nom               String
+  prenom            String
+  date_de_naissance DateTime
+  sexe              String
+  userID            String    @unique @db.ObjectId
+  user              User      @relation(fields: [userID], references: [id])
+  sessions          Session[]
+}
+
+model Session {
   id                   String   @id @default(auto()) @map("_id") @db.ObjectId
   cobaye_id            String   @db.ObjectId
   date_heure_de_debut  DateTime
