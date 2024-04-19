@@ -1,4 +1,4 @@
-import sessionRepository from '../repositories/sessionRepository.js';
+
 import { getMaxGap, getAverage, getMedian } from '../utils/dateUtils.js';
 
 const createSession = (startTime, endTime, pauses = []) => {
