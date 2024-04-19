@@ -1,35 +1,29 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model Cobaye {
-  ID                           Int                @id @default(autoincrement())
-  Nom                          String
-  Prenom                       String
-  Date_de_naissance            DateTime
-  Sexe                         String
-  Resultats_tests_ophtalmiques Json
-  Port_de_lentilles            SessionLentilles[]
+  id                           String             @id @default(auto()) @map("_id") @db.ObjectId
+  nom                          String
+  prenom                       String
+  date_de_naissance            DateTime
+  sexe                         String
+  resultats_tests_ophtalmiques Json
+  port_de_lentilles            SessionLentilles[]
 }
 
 model SessionLentilles {
-  ID                   Int      @id @default(autoincrement())
-  ID_Cobaye            Int
-  Date_heure_de_debut  DateTime
-  Duree_totale_de_port Int
-  Pauses               Int[]
-  cobaye               Cobaye   @relation(fields: [ID_Cobaye], references: [ID])
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  cobaye_id            String   @db.ObjectId
+  date_heure_de_debut  DateTime
+  duree_totale_de_port Int
+  pauses               Int[]
+  cobaye               Cobaye   @relation(fields: [cobaye_id], references: [id])
 
-  @@index([ID_Cobaye], name: "idx_lentilles_cobaye")
+  @@index([cobaye_id], name: "idx_lentilles_cobaye")
 }
