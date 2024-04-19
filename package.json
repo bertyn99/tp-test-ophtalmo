@@ -1,0 +1,22 @@
+{
+  "name": "test-ophtalmo",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "prisma": {
+    "schema": "src/prisma/schema.prisma"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest",
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "prisma": "^5.12.1",
+    "vitest": "^1.4.0"
+  }
+}
