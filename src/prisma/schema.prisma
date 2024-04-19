@@ -30,7 +30,7 @@ model Session {
   cobaye_id            String   @db.ObjectId
   date_heure_de_debut  DateTime
   duree_totale_de_port Int
-  pauses               Int[]
+  pauses               Int
   cobaye               Cobaye   @relation(fields: [cobaye_id], references: [id])
 
   @@index([cobaye_id], name: "idx_lentilles_cobaye")
