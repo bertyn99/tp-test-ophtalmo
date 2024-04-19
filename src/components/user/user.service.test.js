@@ -17,7 +17,7 @@ describe('UserService', () => {
         getAll: vi.fn(() => mockUsers),
         deleteById: vi.fn((id) => undefined),
         deleteAll: vi.fn(() => undefined),
-        create: vi.fn((user) => new User(user.email, user.password, user.age, "661fa8f5185294c4fee1b41e")),
+        create: vi.fn((user) => ({ email: user.email, password: user.password, _id: "661fa8f5185294c4fee1b41e" })),
         update: vi.fn((user) => user),
     };
 
@@ -26,16 +26,16 @@ describe('UserService', () => {
     describe('addUser', () => {
         it('nominal case - should add a new user to the users array', async () => {
             // GIVEN
-            const user = new User('test@example.com', 'password123', 42);
+            const user = {email:'test@example.com', password:'password123'};
             const customMockUserRepository = {
-                getByEmail: jest.fn(() => undefined),
-                create: jest.fn((user) => new User(user.email, user.password, user.age, "661fa8f5185294c4fee1b41e"))
+                getByEmail: vi.fn(() => null ),
+                create: vi.fn((user) =>( {email:user.email, password:user.password, _id:"661fa8f5185294c4fee1b41e"}))
             }
             const customUserService = new UserService(customMockUserRepository);
 
             // WHEN
             const res = await customUserService.addUser(user);
-
+            console.log('rer',res);
             // THEN
             expect(res.email).toBe(user.email);
             expect(res.password).toBe(user.password);
@@ -56,7 +56,7 @@ describe('UserService', () => {
         it('nominal case - should return an empty array if there are no users in the database', () => {
             // GIVEN
             const customMockUserRepository = {
-                getAll: jest.fn(() => [])
+                getAll: vi.fn(() => [])
             }
             const customUserService = new UserService(customMockUserRepository);
 
@@ -76,7 +76,7 @@ describe('UserService', () => {
         it('functional error - should throw an error if the user is not found', async () => {
             // GIVEN
             const customMockUserRepository = {
-                getById: jest.fn(() => undefined)
+                getById: vi.fn(() => undefined)
             }
             const customUserService = new UserService(customMockUserRepository);
 
@@ -94,7 +94,7 @@ describe('UserService', () => {
         it('functional error - should throw an error if the email is not found', async () => {
             // GIVEN
             const customMockUserRepository = {
-                getByEmail: jest.fn(() => undefined)
+                getByEmail: vi.fn(() => undefined)
             }
             const customUserService = new UserService(customMockUserRepository);
 
