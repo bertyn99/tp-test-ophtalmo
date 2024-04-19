@@ -1,24 +1,24 @@
-import User from './user.entities';
-import {describe, expect, it, jest} from '@jest/globals';
+
+import { expect, it, describe,vi } from 'vitest';
 import UserService from "./user.service.js";
 
 describe('UserService', () => {
 
     const mockUsers = [
-        new User("42@email.com", "42", 42, "4200a8f5185294c4fee1b41e"),
-        new User("user1@example.com", "password", 30, "661fa8f5185294c4fee1b41e"),
-        new User("user2@example.com", "password", 31, "001fa8f5185294c4fee1b41e"),
-        new User("user3@example.com", "password", 32, "111fa8f5185294c4fee1b41e")
+        { email: "42@email.com", password: "42", _id: "4200a8f5185294c4fee1b41e" },
+        { email: "user1@example.com", password: "password", _id: "661fa8f5185294c4fee1b41e" },
+        { email: "user2@example.com", password: "password", _id: "001fa8f5185294c4fee1b41e" },
+        { email: "user3@example.com", password: "password", _id: "111fa8f5185294c4fee1b41e" }
     ];
 
     const mockUserRepository = {
-        getById: jest.fn((id) => mockUsers[0]),
-        getByEmail: jest.fn((email) => mockUsers[0]),
-        getAll: jest.fn(() => mockUsers),
-        deleteById: jest.fn((id) => undefined),
-        deleteAll: jest.fn(() => undefined),
-        create: jest.fn((user) => new User(user.email, user.password, user.age, "661fa8f5185294c4fee1b41e")),
-        update: jest.fn((user) => user),
+        getById: vi.fn((id) => mockUsers[0]),
+        getByEmail: vi.fn((email) => mockUsers[0]),
+        getAll: vi.fn(() => mockUsers),
+        deleteById: vi.fn((id) => undefined),
+        deleteAll: vi.fn(() => undefined),
+        create: vi.fn((user) => new User(user.email, user.password, user.age, "661fa8f5185294c4fee1b41e")),
+        update: vi.fn((user) => user),
     };
 
     const userService = new UserService(mockUserRepository);
