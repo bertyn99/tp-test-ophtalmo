@@ -1,12 +1,11 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
-
 const options = {
   swaggerDefinition: {
     openapi: '3.0.0',
     info: {
-      title: 'Cobaye et User API',
+      title: 'Cobaye, User et Session API',
       version: '1.0.0',
     },
     servers: [
@@ -61,10 +60,52 @@ const options = {
             },
           },
         },
+        Session: {
+          type: 'object',
+          properties: {
+            id: {
+              type: 'string',
+              format: 'objectId',
+            },
+            startTime: {
+              type: 'string',
+              format: 'date-time',
+            },
+            endTime: {
+              type: 'string',
+              format: 'date-time',
+            },
+            pauses: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  start: {
+                    type: 'string',
+                    format: 'date-time',
+                  },
+                  end: {
+                    type: 'string',
+                    format: 'date-time',
+                  },
+                },
+              },
+            },
+            userID: {
+              type: 'string',
+              format: 'objectId',
+            },
+          },
+          required: ['id', 'startTime', 'endTime', 'pauses', 'userID'],
+        },
       },
     },
   },
-  apis: ['./src/components/cobaye/*.js', './src/components/user/*.js'], // Ajustez les chemins pour inclure vos fichiers de route
+  apis: [
+    './src/components/cobaye/*.js',
+    './src/components/user/*.js',
+    './src/components/session/*.js', // Ajoutez le chemin pour inclure les fichiers de route de session
+  ],
 };
 
 const specs = swaggerJsdoc(options);
@@ -72,7 +113,5 @@ const specs = swaggerJsdoc(options);
 function setupDocSwagger(app) {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 }
-
-
 
 export default setupDocSwagger;
