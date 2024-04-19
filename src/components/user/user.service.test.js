@@ -1,15 +1,10 @@
 
 import { expect, it, describe,vi } from 'vitest';
 import UserService from "./user.service.js";
-
+import { mockUsers } from '../../prisma/seed.js';
 describe('UserService', () => {
 
-    const mockUsers = [
-        { email: "42@email.com", password: "42", _id: "4200a8f5185294c4fee1b41e" },
-        { email: "user1@example.com", password: "password", _id: "661fa8f5185294c4fee1b41e" },
-        { email: "user2@example.com", password: "password", _id: "001fa8f5185294c4fee1b41e" },
-        { email: "user3@example.com", password: "password", _id: "111fa8f5185294c4fee1b41e" }
-    ];
+   
 
     const mockUserRepository = {
         getById: vi.fn((id) => mockUsers[0]),

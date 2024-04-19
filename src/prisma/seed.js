@@ -1,12 +1,25 @@
 import { PrismaClient } from '@prisma/client';
+
+export const mockUsers = [
+  { email: "42@email.com", password: "42", _id: "4200a8f5185294c4fee1b41e" },
+  { email: "user1@example.com", password: "password", _id: "661fa8f5185294c4fee1b41e" },
+  { email: "user2@example.com", password: "password", _id: "001fa8f5185294c4fee1b41e" },
+  { email: "user3@example.com", password: "password", _id: "111fa8f5185294c4fee1b41e" }
+];
+
+export const mockCobayes = [
+  { nom: "Cobaye 1",prenom:'jon', sexe: "Male", dateDeNaissance: new Date("2020-01-01"), resultatsTestsOphtalmiques: "Initial results", _id: "661fa8f5185294c4fee1b41e" },
+  { nom: "Cobaye 2",prenom:'sophia', sexe: "Female", dateDeNaissance: new Date("2020-01-02"), resultatsTestsOphtalmiques: "Initial results", _id: "001fa8f5185294c4fee1b41e" },
+  { nom: "Cobaye 3",prenom:'ronnie', sexe: "Male", dateDeNaissance: new Date("2020-01-03"), resultatsTestsOphtalmiques: "Initial results", _id: "111fa8f5185294c4fee1b41e" }
+];
+
 async function main() {
   const prisma = new PrismaClient();
 
   // Créer un utilisateur
   const user = await prisma.user.create({
     data: {
-      email: 'test@example.com',
-      password: 'test1234',
+  ...mockUsers[0]
     },
   });
   console.log('User créé :', user);
@@ -14,11 +27,8 @@ async function main() {
   // Créer un cobaye pour l'utilisateur
   const cobaye = await prisma.cobaye.create({
     data: {
-      nom: 'John',
-      prenom: 'Doe',
-      date_de_naissance: new Date('1990-01-01T00:00:00.000Z'),
-      sexe: 'M',
-      userID: user.id,
+      ...mockCobayes[0],
+      user_id: user.id,
     },
   });
   console.log('Cobaye créé :', cobaye);

@@ -1,13 +1,9 @@
 import { describe, expect, it, vi } from 'vitest';
 import CobayeService from "./cobaye.service.js";
-
+import { mockCobayes } from '../../prisma/seed.js';
 describe('CobayeService', () => {
 
-  const mockCobayes = [
-    { nom: "Cobaye 1",prenom:'jon', sexe: "Male", dateDeNaissance: new Date("2020-01-01"), resultatsTestsOphtalmiques: "Initial results", _id: "661fa8f5185294c4fee1b41e" },
-    { nom: "Cobaye 2",prenom:'sophia', sexe: "Female", dateDeNaissance: new Date("2020-01-02"), resultatsTestsOphtalmiques: "Initial results", _id: "001fa8f5185294c4fee1b41e" },
-    { nom: "Cobaye 3",prenom:'ronnie', sexe: "Male", dateDeNaissance: new Date("2020-01-03"), resultatsTestsOphtalmiques: "Initial results", _id: "111fa8f5185294c4fee1b41e" }
-  ];
+
 
   const mockCobayeRepository = {
     getById: vi.fn((id) => mockCobayes[0]),
