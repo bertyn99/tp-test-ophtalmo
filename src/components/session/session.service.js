@@ -1,4 +1,4 @@
-import { getMaxGap, getAverage, getMedian } from '../utils/dateUtils.js';
+import { getMaxGap, getAverage, getMedian } from '../../utils/dateUtils.js';
 import SessionRepository from './session.repository.js';
 
 class SessionService {
