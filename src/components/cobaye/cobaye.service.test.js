@@ -1,23 +1,22 @@
-import Cobaye from './cobaye.entities';
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it, vi } from 'vitest';
 import CobayeService from "./cobaye.service.js";
 
 describe('CobayeService', () => {
 
   const mockCobayes = [
-    new Cobaye("Cobaye 1", "Male", new Date("2020-01-01"), "Initial results", "661fa8f5185294c4fee1b41e"),
-    new Cobaye("Cobaye 2", "Female", new Date("2020-01-02"), "Initial results", "001fa8f5185294c4fee1b41e"),
-    new Cobaye("Cobaye 3", "Male", new Date("2020-01-03"), "Initial results", "111fa8f5185294c4fee1b41e")
+    { nom: "Cobaye 1", sexe: "Male", dateDeNaissance: new Date("2020-01-01"), resultatsTestsOphtalmiques: "Initial results", _id: "661fa8f5185294c4fee1b41e" },
+    { nom: "Cobaye 2", sexe: "Female", dateDeNaissance: new Date("2020-01-02"), resultatsTestsOphtalmiques: "Initial results", _id: "001fa8f5185294c4fee1b41e" },
+    { nom: "Cobaye 3", sexe: "Male", dateDeNaissance: new Date("2020-01-03"), resultatsTestsOphtalmiques: "Initial results", _id: "111fa8f5185294c4fee1b41e" }
   ];
 
   const mockCobayeRepository = {
-    getById: jest.fn((id) => mockCobayes[0]),
-    getByName: jest.fn((name) => mockCobayes[0]),
-    getAll: jest.fn(() => mockCobayes),
-    deleteById: jest.fn((id) => undefined),
-    deleteAll: jest.fn(() => undefined),
-    create: jest.fn((cobaye) => new Cobaye(cobaye.nom, cobaye.prenom, cobaye.dateDeNaissance, cobaye.sexe, cobaye.resultatsTestsOphtalmiques, "661fa8f5185294c4fee1b41e")),
-    update: jest.fn((cobaye) => cobaye),
+    getById: vi.fn((id) => mockCobayes[0]),
+    getByName: vi.fn((name) => mockCobayes[0]),
+    getAll: vi.fn(() => mockCobayes),
+    deleteById: vi.fn((id) => undefined),
+    deleteAll: vi.fn(() => undefined),
+    create: vi.fn((cobaye) =>({ ...cobaye, _id: "661fa8f5185294c4fee1b41e" })),
+    update: vi.fn((cobaye) => cobaye),
   };
 
   const cobayeService = new CobayeService(mockCobayeRepository);
@@ -25,10 +24,10 @@ describe('CobayeService', () => {
   describe('addCobaye', () => {
     it('nominal case - should add a new cobaye to the cobayes array', async () => {
       // GIVEN
-      const cobaye = new Cobaye('Cobaye 4', 'Male', new Date("2020-01-04"), 'Initial results');
+      const cobaye =  { nom:'Cobaye 4',prenom:'4', sexe:'Male',dateDeNaissance: new Date("2020-01-04"),resultatsTestsOphtalmiques:'Initial results'};
       const customMockCobayeRepository = {
-        getByName: jest.fn(() => undefined),
-        create: jest.fn((cobaye) => new Cobaye(cobaye.nom, cobaye.prenom, cobaye.dateDeNaissance, cobaye.sexe, cobaye.resultatsTestsOphtalmiques, "661fa8f5185294c4fee1b41e"))
+        getByName: vi.fn(() => undefined),
+        create: vi.fn((cobaye) => ({ ...cobaye, _id: "661fa8f5185294c4fee1b41e" }))
       }
       const customCobayeService = new CobayeService(customMockCobayeRepository);
 
@@ -57,7 +56,7 @@ describe('CobayeService', () => {
     it('nominal case - should return an empty array if there are no cobayes in the database', () => {
       // GIVEN
       const customMockCobayeRepository = {
-        getAll: jest.fn(() => [])
+        getAll: vi.fn(() => [])
       }
       const customCobayeService = new CobayeService(customMockCobayeRepository);
 
