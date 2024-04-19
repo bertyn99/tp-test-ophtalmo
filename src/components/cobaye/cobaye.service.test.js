@@ -4,9 +4,9 @@ import CobayeService from "./cobaye.service.js";
 describe('CobayeService', () => {
 
   const mockCobayes = [
-    { nom: "Cobaye 1", sexe: "Male", dateDeNaissance: new Date("2020-01-01"), resultatsTestsOphtalmiques: "Initial results", _id: "661fa8f5185294c4fee1b41e" },
-    { nom: "Cobaye 2", sexe: "Female", dateDeNaissance: new Date("2020-01-02"), resultatsTestsOphtalmiques: "Initial results", _id: "001fa8f5185294c4fee1b41e" },
-    { nom: "Cobaye 3", sexe: "Male", dateDeNaissance: new Date("2020-01-03"), resultatsTestsOphtalmiques: "Initial results", _id: "111fa8f5185294c4fee1b41e" }
+    { nom: "Cobaye 1",prenom:'jon', sexe: "Male", dateDeNaissance: new Date("2020-01-01"), resultatsTestsOphtalmiques: "Initial results", _id: "661fa8f5185294c4fee1b41e" },
+    { nom: "Cobaye 2",prenom:'sophia', sexe: "Female", dateDeNaissance: new Date("2020-01-02"), resultatsTestsOphtalmiques: "Initial results", _id: "001fa8f5185294c4fee1b41e" },
+    { nom: "Cobaye 3",prenom:'ronnie', sexe: "Male", dateDeNaissance: new Date("2020-01-03"), resultatsTestsOphtalmiques: "Initial results", _id: "111fa8f5185294c4fee1b41e" }
   ];
 
   const mockCobayeRepository = {
