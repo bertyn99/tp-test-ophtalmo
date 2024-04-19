@@ -8,7 +8,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "vitest",
+    "test": "vitest -w",
     "coverage": "vitest run --coverage",
     "start": "nodemon src/index.js"
   },
@@ -24,6 +24,7 @@
     "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
-    "vitest": "^1.4.0"
+    "@vitest/coverage-v8": "^1.5.0",
+    "vitest": "^1.5.0"
   }
 }

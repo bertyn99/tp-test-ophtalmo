@@ -12,6 +12,12 @@ export const mockCobayes = [
   { nom: "Cobaye 2", prenom: 'sophia', sexe: "Female", date_de_naissance: new Date("2020-01-02"), id: "001fa8f5185294c4fee1b41e" },
   { nom: "Cobaye 3", prenom: 'ronnie', sexe: "Male", date_de_naissance: new Date("2020-01-03"), id: "111fa8f5185294c4fee1b41e" }
 ];
+
+export const mockSessions = [
+  { cobaye_id: "661fa8f5185294c4fee1b41e", date_heure_de_debut: new Date(), duree_totale_de_port: 120, pauses: 30, id: "661fa8f5185294c4fee1b41e" },
+  { cobaye_id: "001fa8f5185294c4fee1b41e", date_heure_de_debut: new Date(), duree_totale_de_port: 120, pauses: 30, id: "001fa8f5185294c4fee1b41e" },
+  { cobaye_id: "111fa8f5185294c4fee1b41e", date_heure_de_debut: new Date(), duree_totale_de_port: 120, pauses: 30, id: "111fa8f5185294c4fee1b41e" }
+];
 const prisma = new PrismaClient();
 async function main() {
 

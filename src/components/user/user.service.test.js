@@ -1,10 +1,8 @@
 
-import { expect, it, describe,vi } from 'vitest';
+import { expect, it, describe, vi } from 'vitest';
 import UserService from "./user.service.js";
 import { mockUsers } from '../../prisma/seed.js';
 describe('UserService', () => {
-
-   
 
     const mockUserRepository = {
         getById: vi.fn((id) => mockUsers[0]),
@@ -21,16 +19,16 @@ describe('UserService', () => {
     describe('addUser', () => {
         it('nominal case - should add a new user to the users array', async () => {
             // GIVEN
-            const user = {email:'test@example.com', password:'password123'};
+            const user = { email: 'test@example.com', password: 'password123' };
             const customMockUserRepository = {
-                getByEmail: vi.fn(() => null ),
-                create: vi.fn((user) =>( {email:user.email, password:user.password, _id:"661fa8f5185294c4fee1b41e"}))
+                getByEmail: vi.fn(() => null),
+                create: vi.fn((user) => ({ email: user.email, password: user.password, _id: "661fa8f5185294c4fee1b41e" }))
             }
             const customUserService = new UserService(customMockUserRepository);
 
             // WHEN
             const res = await customUserService.addUser(user);
-            console.log('rer',res);
+            console.log('rer', res);
             // THEN
             expect(res.email).toBe(user.email);
             expect(res.password).toBe(user.password);
@@ -40,7 +38,7 @@ describe('UserService', () => {
 
         it('functional error - should throw an error if a user with the same email already exists', async () => {
             // GIVEN
-            const existingUser = {...mockUsers[0]};
+            const existingUser = { ...mockUsers[0] };
 
             // WHEN + THEN
             await expect(userService.addUser(existingUser)).rejects.toThrow('User already exists');
@@ -97,7 +95,7 @@ describe('UserService', () => {
             try {
                 await customUserService.login('name@a.com', '123456');
 
-            // THEN
+                // THEN
             } catch (error) {
                 expect(error.message).toBe('Invalid Login');
             }
