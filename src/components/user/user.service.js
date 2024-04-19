@@ -1,6 +1,8 @@
+import UserRepository from './user.repository';
+
 class UserService {
   constructor(repository) {
-    this.repository = repository;
+    this.repository =new UserRepository();
   }
 
   addUser = async (user) => {

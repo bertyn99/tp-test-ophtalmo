@@ -1,6 +1,8 @@
+import CobayeRepository from './cobaye.repository.js';
+
 class CobayeService {
   constructor(repository) {
-    this.repository = repository;
+    this.repository = new CobayeRepository();
   }
 
   addCobaye = async (cobaye) => {

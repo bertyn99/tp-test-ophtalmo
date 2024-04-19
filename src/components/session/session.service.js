@@ -1,33 +1,34 @@
-import sessionRepository from '../repositories/sessionRepository.js';
 import { getMaxGap, getAverage, getMedian } from '../utils/dateUtils.js';
+import SessionRepository from './session.repository.js';
 
-const createSession = (startTime, endTime, pauses = []) => {
-  return sessionRepository.createSession(startTime, endTime, pauses);
-};
+class SessionService {
+  constructor() {
+    this.sessionRepository = new SessionRepository();
+  }
 
-const getAllSessions = () => {
-  return sessionRepository.getAllSessions();
-};
+  createSession(startTime, endTime, pauses = []) {
+    return this.sessionRepository.createSession(startTime, endTime, pauses);
+  }
 
-const updateSession = (id, updates) => {
-  return sessionRepository.updateSession(id, updates);
-};
+  getAllSessions() {
+    return this.sessionRepository.getAllSessions();
+  }
 
-const getSessionStats = () => {
-  const sessions = getAllSessions();
-  const durations = sessions.map(session => session.getDuration());
-  return {
-    average: getAverage(durations),
-    min: Math.min(...durations),
-    max: Math.max(...durations),
-    median: getMedian(durations),
-    maxGap: getMaxGap(sessions)
-  };
-};
+  updateSession(id, updates) {
+    return this.sessionRepository.updateSession(id, updates);
+  }
 
-export default {
-  createSession,
-  getAllSessions,
-  updateSession,
-  getSessionStats
-};
+  getSessionStats() {
+    const sessions = this.getAllSessions();
+    const durations = sessions.map(session => session.getDuration());
+    return {
+      average: getAverage(durations),
+      min: Math.min(...durations),
+      max: Math.max(...durations),
+      median: getMedian(durations),
+      maxGap: getMaxGap(sessions)
+    };
+  }
+}
+
+export default SessionService;
