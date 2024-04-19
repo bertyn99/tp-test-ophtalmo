@@ -1,5 +1,3 @@
-import Cobaye from './cobaye.entities.js';
-import e from "express";
 
 class CobayeController {
   constructor(cobayeService) {
