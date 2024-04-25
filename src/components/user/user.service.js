@@ -1,9 +1,9 @@
-import UserRepository from './user.repository.js';
+
 
 class UserService {
   constructor(repository,) {
-    this.repository =repository;
-/*     this.cobailRepository = cobayeRepository; */
+    this.repository = repository;
+    /*     this.cobailRepository = cobayeRepository; */
   }
 
   addUser = async (user) => {
@@ -32,9 +32,10 @@ class UserService {
   };
 
   // TODO throw if not founded using property "deletedCount" of return value
-  deleteUserById = (id) =>{ this.repository.deleteById(id)
+  deleteUserById = (id) => {
+    this.repository.deleteById(id)
     //delete cobaye from all studies
-   /*  this.repository */
+    /*  this.repository */
   };
 
   deleteUsers = () => this.repository.deleteAll();

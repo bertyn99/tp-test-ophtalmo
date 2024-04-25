@@ -4,12 +4,13 @@ class SessionRepository {
         this.db = prisma.session;
     }
 
-    async createSession(startTime, endTime, pauses = []) {
+    async createSession(cobaye_id, startTime, pauses = 0) {
         return await this.db.create({
             data: {
+
                 startTime: startTime,
-                endTime: endTime,
-                pauses: pauses
+                pauses: pauses,
+                connect: { id: cobaye_id }
             },
         });
     }
@@ -34,6 +35,7 @@ class SessionRepository {
     async deleteAllSessions() {
         return await this.db.deleteMany();
     }
+
 }
 
 export default SessionRepository;
